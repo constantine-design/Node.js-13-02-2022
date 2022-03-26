@@ -1,11 +1,21 @@
-const { info, warn, error } = require("./utils/logger");
+const fs = require("fs");
+const yargs = require('yargs');
+const logger = require("./utils/logger");
+const { seek } = require("./utils/file-seek");
 
-console.log("---------------------");
-console.log("     Sample text:    ");
-console.log("---------------------");
+const appArgs = yargs(process.argv).argv;
+if (!appArgs.file) {
+    error('APP STOPPED: --file arguments are required');
+    process.exit(1);
+}
+if (!appArgs.dir) appArgs.dir = 'demo-files';
 
-info("This is first info message","Another info message");
-// debugger;
-warn("This is warning message");
-// debugger;
-error("This is error message");
+logger.gray("-------------------------------------");
+logger.gray("              App start:             ");
+logger.gray("-------------------------------------");
+
+const notifications = seek(appArgs.file, appArgs.dir);
+
+notifications.addListener('error', error => logger.error(error.toString()) );
+notifications.addListener('success', content => logger.info('File content:', content.toString()) );
+
