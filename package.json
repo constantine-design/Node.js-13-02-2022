@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "start": "node app.js --file='text.txt'",
+    "start": "node app.js --file='text.txt' --verbose",
     "start:debug": "node --inspect-brk app.js"
   },
   "author": "",
