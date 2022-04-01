@@ -1,7 +1,7 @@
 const fs = require('fs');
 
-function verbose(content, error=false) {
 
+function verbose(content, error=false) {
     const date = new Date().toISOString();
     let logContent = date+" [SUCCESS] Added: '"+content+"'\n";
     if (error) logContent = date+" [!ERROR!] "+content+"\n";
@@ -15,9 +15,28 @@ function verbose(content, error=false) {
         }
     return true;
     })
+}
 
+function verboseSteam(content, error=false) {
+    const directory = './logs';
+    const file = '/requests.log';
+    const date = new Date().toISOString();
+    let logContent = date+" [CONNECT] Requested: '"+content+"'\n";
+    if (error) logContent = date+" [!ERROR!] "+content+"\n";
+    fs.access(directory, (dirError) => {
+        if (dirError) fs.mkdirSync(directory);
+        const writeLog$ = fs.createWriteStream(directory+file, { 'flags': 'a', encoding: 'utf-8' });
+        writeLog$.on('error', (errorStream) => {
+            console.error(errorStream.toString());
+            return false;
+        });
+        writeLog$.write(logContent);
+        writeLog$.end();
+    });
+    return true;
 }
 
 module.exports = {
-    verbose
+    verbose,
+    verboseSteam
 }
