@@ -4,16 +4,22 @@
   "description": "",
   "main": "app.js",
   "directories": {
-    "lib": "lib"
+  "lib": "lib"
   },
   "scripts": {
-    "start": "node app.js --file='text.txt' --verbose",
-    "start:debug": "node --inspect-brk app.js"
+    "start": "node server.js --con",
+    "start:debug": "node --inspect-brk server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "chalk": "4.1.2",
+    "express": "^4.17.3",
     "yargs": "^17.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
+
